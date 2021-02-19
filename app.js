@@ -25,6 +25,7 @@ const showImages = (images) => {
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
     toggleSpinner(false);
+    document.getElementById('search').value="";    // bonus work
   })
 
 }
@@ -124,6 +125,7 @@ const input = document.getElementById("search");
 input.addEventListener("keyup", function(event) {
   if (event.key === "Enter") {
    event.preventDefault();
+  
    document.getElementById("search-btn").click();
   }
 });
