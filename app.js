@@ -25,7 +25,7 @@ const showImages = (images) => {
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
     toggleSpinner(false);
-    document.getElementById('search').value="";    // bonus work
+    document.getElementById('search').value = "";    // bonus work
   })
 
 }
@@ -42,7 +42,7 @@ let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
   element.classList.toggle('added');
- 
+
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
@@ -71,7 +71,7 @@ const createSlider = () => {
   document.querySelector('.main').style.display = 'block';
   // hide image aria
   imagesArea.style.display = 'none';
-  const duration = document.getElementById('duration').value ||1000 ;
+  const duration = document.getElementById('duration').value || 2000;// 2 second is default value if we do not give any duration time
   sliders.forEach(slide => {
     let item = document.createElement('div')
     item.className = "slider-item";
@@ -122,26 +122,29 @@ searchBtn.addEventListener('click', function () {
 })
 // enter button
 const input = document.getElementById("search");
-input.addEventListener("keyup", function(event) {
+input.addEventListener("keyup", function (event) {
   if (event.key === "Enter") {
-   event.preventDefault();
-  
-   document.getElementById("search-btn").click();
+    event.preventDefault();
+
+    document.getElementById("search-btn").click();
   }
 });
 
 sliderBtn.addEventListener('click', function () {
-  createSlider()
+  createSlider();
+  document.getElementById("duration").value = "";  // bonus work
 })
 // Spinner function, this spinner will show when image will be loading and it will not show when images will be being loaded 
 
-const toggleSpinner=(show)=>{
-  const loadingSpinner=document.getElementById("loading-spinner");
-  if(show){
+// bonus work
+
+const toggleSpinner = (show) => {
+  const loadingSpinner = document.getElementById("loading-spinner");
+  if (show) {
     loadingSpinner.classList.remove("d-none");
 
   }
-  else{
+  else {
     loadingSpinner.classList.add("d-none");
 
   }
