@@ -4,7 +4,6 @@ const galleryHeader = document.querySelector('.gallery-header');
 const searchBtn = document.getElementById('search-btn');
 const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
-const duration = document.getElementById('duration').value||1000;
 // selected image 
 let sliders = [];
 
@@ -25,17 +24,16 @@ const showImages = (images) => {
     div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
-    
+    toggleSpinner(false);
   })
 
 }
 
 const getImages = (query) => {
+  toggleSpinner(true);
   fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
-  
     .then(response => response.json())
     .then(data => showImages(data))
-    
     .catch(err => console.log(err))
 }
 
@@ -47,7 +45,6 @@ const selectItem = (event, img) => {
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
-
   } else {
     sliders.pop(img);
     //alert('Hey, Already added !')
@@ -73,8 +70,7 @@ const createSlider = () => {
   document.querySelector('.main').style.display = 'block';
   // hide image aria
   imagesArea.style.display = 'none';
-  
-  
+  const duration = document.getElementById('duration').value ||1000 ;
   sliders.forEach(slide => {
     let item = document.createElement('div')
     item.className = "slider-item";
@@ -83,8 +79,11 @@ const createSlider = () => {
     alt="">`;
     sliderContainer.appendChild(item)
   })
- 
- 
+  changeSlide(0)
+  timer = setInterval(function () {
+    slideIndex++;
+    changeSlide(slideIndex);
+  }, duration);
 }
 
 // change slider index 
@@ -120,12 +119,8 @@ searchBtn.addEventListener('click', function () {
   getImages(search.value)
   sliders.length = 0;
 })
-
-sliderBtn.addEventListener('click', function () {
-  createSlider();
-})
-
-var input = document.getElementById("search");
+// enter button
+const input = document.getElementById("search");
 input.addEventListener("keyup", function(event) {
   if (event.key === "Enter") {
    event.preventDefault();
@@ -133,3 +128,19 @@ input.addEventListener("keyup", function(event) {
   }
 });
 
+sliderBtn.addEventListener('click', function () {
+  createSlider()
+})
+// Spinner function, this spinner will show when image will be loading and it will not show when images will be being loaded 
+
+const toggleSpinner=(show)=>{
+  const loadingSpinner=document.getElementById("loading-spinner");
+  if(show){
+    loadingSpinner.classList.remove("d-none");
+
+  }
+  else{
+    loadingSpinner.classList.add("d-none");
+
+  }
+}
