@@ -72,6 +72,7 @@ const createSlider = () => {
   // hide image aria
   imagesArea.style.display = 'none';
   const duration = document.getElementById('duration').value || 2000;// 2 second is default value if we do not give any duration time
+  const absDurationValue=Math.abs(duration);
   sliders.forEach(slide => {
     let item = document.createElement('div')
     item.className = "slider-item";
@@ -84,7 +85,7 @@ const createSlider = () => {
   timer = setInterval(function () {
     slideIndex++;
     changeSlide(slideIndex);
-  }, duration);
+  }, absDurationValue);
 }
 
 // change slider index 
